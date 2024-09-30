@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/test"
+    username: "root"
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  secret: "sSkEW/7r25YJQCRBw9LEsCg4/yWv3FDKNCMptG5tUnYq7MdkNz+9saUMmCSENl5Y"
