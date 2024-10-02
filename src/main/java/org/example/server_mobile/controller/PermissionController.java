@@ -2,6 +2,7 @@ package org.example.server_mobile.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.example.server_mobile.dto.request.ApiResponse;
 import org.example.server_mobile.dto.request.PermissionRequest;
 import org.example.server_mobile.dto.response.PermissionResponse;
@@ -9,7 +10,7 @@ import org.example.server_mobile.service.PermissonService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/permissions")
 @RequiredArgsConstructor

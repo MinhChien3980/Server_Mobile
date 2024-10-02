@@ -13,8 +13,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     ResponseEntity<ApiResponse> handleRuntimeException(RuntimeException e) {
         ApiResponse response = new ApiResponse();
-        response.setCode(ErrorCode.UNAUTHORIZED.getCode());
-        response.setMessage(ErrorCode.UNAUTHORIZED.getMessage());
+        response.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
+        response.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
         return ResponseEntity.badRequest().body(response);
     }
     @ExceptionHandler(AppException.class)
