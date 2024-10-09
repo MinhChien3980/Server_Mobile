@@ -5,13 +5,14 @@ import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.dto.request.UserCreationRequest;
 import org.example.server_mobile.dto.response.UserResponse;
 import org.example.server_mobile.entity.User;
-import org.example.server_mobile.enums.Role;
 import org.example.server_mobile.exception.AppException;
 import org.example.server_mobile.exception.ErrorCode;
 import org.example.server_mobile.mapper.UserMapper;
+import org.example.server_mobile.repository.RoleRepo;
 import org.example.server_mobile.repository.UserRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +31,7 @@ public class UserService {
     UserRepo userRepo;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    RoleRepo roleRepo;
 
     public UserResponse createUser(UserCreationRequest userRequest) {
 
@@ -41,9 +43,13 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
         HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
+//        roleRepo.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
 //        newUser.setRole(roles);
-
+        try {
+            newUser = userRepo.save(newUser);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
         newUser.setCreated_at(String.valueOf(new Date()));
         newUser.setUpdated_at(String.valueOf(new Date()));
 
@@ -71,6 +77,10 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         existingUser.setUpdated_at(String.valueOf(new Date()));
         userMapper.updateUser(user, existingUser);
+        existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+
+//        var roles = roleRepo.findAllById(user.getRole());
+//        existingUser.setRole(new HashSet<>(roles));
         return userMapper.toUserResponse(userRepo.save(existingUser));
     }
 

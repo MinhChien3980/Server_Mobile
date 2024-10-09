@@ -3,9 +3,7 @@ package org.example.server_mobile.controller;
 import com.nimbusds.jose.JOSEException;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.dto.request.ApiResponse;
-import org.example.server_mobile.dto.request.AuthRequest;
-import org.example.server_mobile.dto.request.IntrospectRequest;
+import org.example.server_mobile.dto.request.*;
 import org.example.server_mobile.dto.response.AuthResponse;
 import org.example.server_mobile.dto.response.IntrospectResponse;
 import org.example.server_mobile.service.AuthService;
@@ -25,16 +23,28 @@ public class AuthController {
 
     @PostMapping("/token")
     ApiResponse<AuthResponse> login(@RequestBody AuthRequest authRequest) {
-        var re = authService.authenticateService(authRequest);
+        var re = authService.authenticate(authRequest);
         return ApiResponse.<AuthResponse>builder()
                 .data(re)
                 .build();
     }
     @PostMapping("/introspect")
     ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest introspectRequest) throws ParseException, JOSEException {
-        var re = authService.introspectResponse(introspectRequest);
+        var re = authService.introspect(introspectRequest);
         return ApiResponse.<IntrospectResponse>builder()
                 .data(re)
                 .build();
+    }
+    @PostMapping("/refresh")
+    ApiResponse<AuthResponse> authenticate(@RequestBody RefreshRequest request)
+            throws ParseException, JOSEException {
+        var result = authService.refreshToken(request);
+        return ApiResponse.<AuthResponse>builder().data(result).build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
+        authService.logout(request);
+        return ApiResponse.<Void>builder().build();
     }
 }
