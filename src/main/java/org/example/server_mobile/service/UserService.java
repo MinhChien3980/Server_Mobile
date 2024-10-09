@@ -2,8 +2,10 @@ package org.example.server_mobile.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.server_mobile.constant.PredefinedRole;
 import org.example.server_mobile.dto.request.UserCreationRequest;
 import org.example.server_mobile.dto.response.UserResponse;
+import org.example.server_mobile.entity.Role;
 import org.example.server_mobile.entity.User;
 import org.example.server_mobile.exception.AppException;
 import org.example.server_mobile.exception.ErrorCode;
@@ -42,9 +44,9 @@ public class UserService {
 
         newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-//        roleRepo.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
-//        newUser.setRole(roles);
+        HashSet<Role> roles = new HashSet<>();
+        roleRepo.findById(PredefinedRole.USER_ROLE).ifPresent(roles :: add);
+        newUser.setRole(roles);
         try {
             newUser = userRepo.save(newUser);
         } catch (DataIntegrityViolationException exception) {
