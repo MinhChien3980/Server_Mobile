@@ -75,7 +75,7 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-//    @PostAuthorize("returnObject.email == authentication.name")
+    @PostAuthorize("returnObject.email == authentication.name")
     public UserResponse updateUser(String id, UserCreationRequest user) {
         log.info("Updating user with id: {}", id);
         User existingUser = userRepo.findById(id)
