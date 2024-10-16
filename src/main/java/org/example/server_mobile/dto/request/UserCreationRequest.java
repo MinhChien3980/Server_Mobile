@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.entity.Role;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -23,9 +25,10 @@ public class UserCreationRequest {
     @Size(min = 8, max = 20, message = "INVALID_PASSWORD")
     String password;
     Set<Role> role;
+    LocalDate dateOfBirth;
     String status;
-    String created_at;
-    String updated_at;
+    Date created_at;
+    Date updated_at;
 
 }
 

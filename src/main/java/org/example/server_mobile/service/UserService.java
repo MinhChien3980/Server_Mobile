@@ -45,7 +45,7 @@ public class UserService {
         User newUser = userMapper.toUser(userRequest);
 
         newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-
+        newUser.setStatus((byte) ("ACTIVE".equals(userRequest.getStatus()) ? 1 : 0));
         HashSet<Role> roles = new HashSet<>();
         roleRepo.findById(PredefinedRole.USER_ROLE).ifPresent(roles :: add);
         newUser.setRole(roles);
@@ -54,8 +54,8 @@ public class UserService {
         } catch (DataIntegrityViolationException exception) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-        newUser.setCreated_at(String.valueOf(new Date()));
-        newUser.setUpdated_at(String.valueOf(new Date()));
+        newUser.setCreated_at(new Date());
+        newUser.setUpdated_at(new Date());
 
         return userMapper.toUserResponse(userRepo.save(newUser));
     }
@@ -80,9 +80,10 @@ public class UserService {
         log.info("Updating user with id: {}", id);
         User existingUser = userRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        existingUser.setUpdated_at(String.valueOf(new Date()));
+        existingUser.setUpdated_at(new Date());
         log.info("Existing user: {}", existingUser.toString());
         userMapper.updateUser(user, existingUser);
+        existingUser.setDateOfBirth(user.getDateOfBirth());
         existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
         log.info("Updated user: {}", existingUser.getPassword());
 
