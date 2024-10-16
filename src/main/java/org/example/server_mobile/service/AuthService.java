@@ -92,8 +92,9 @@ public class AuthService {
 
             InvalidatedToken invalidatedToken =
                     InvalidatedToken.builder().id(jit).expiryTime(expiryTime).build();
-
+            log.info("Token already expired:{} ", invalidatedToken);
             invalidatedTokenRepository.save(invalidatedToken);
+            log.info("Token already expired:{} ", invalidatedToken + " saved");
         } catch (AppException exception) {
             log.info("Token already expired");
         }
@@ -108,8 +109,9 @@ public class AuthService {
         InvalidatedToken invalidatedToken =
                 InvalidatedToken.builder().id(jit).expiryTime(expiryTime).build();
 
+        log.info("Token already expired:{} ", invalidatedToken);
         invalidatedTokenRepository.save(invalidatedToken);
-
+        log.info("Token already expired:{} ", invalidatedToken + " saved");
         var userEmail = signedJWT.getJWTClaimsSet().getSubject();
 
         var user =
