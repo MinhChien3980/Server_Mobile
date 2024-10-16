@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -73,16 +75,25 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    @PostAuthorize("returnObject.email == authentication.name")
+//    @PostAuthorize("returnObject.email == authentication.name")
     public UserResponse updateUser(String id, UserCreationRequest user) {
+        log.info("Updating user with id: {}", id);
         User existingUser = userRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         existingUser.setUpdated_at(String.valueOf(new Date()));
+        log.info("Existing user: {}", existingUser.toString());
         userMapper.updateUser(user, existingUser);
         existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        log.info("Updated user: {}", existingUser.getPassword());
 
-//        var roles = roleRepo.findAllById(user.getRole());
-//        existingUser.setRole(new HashSet<>(roles));
+        var roleNames = user.getRole().stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+        log.info("roleNames: {}", roleNames);
+        var roles = roleRepo.findAllByNameIn((Set<String>) roleNames);
+        log.info("roles: {}", roles);
+        existingUser.setRole(new HashSet<>(roles));
+        log.info("Updated user: {}", existingUser.getRole());
         return userMapper.toUserResponse(userRepo.save(existingUser));
     }
 
