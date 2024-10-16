@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -24,7 +26,8 @@ public class User {
     String password;
     @ManyToMany
     Set<Role> role;
-    String status;
-    String created_at;
-    String updated_at;
+    Byte status;
+    LocalDate dateOfBirth;
+    Date created_at;
+    Date updated_at;
 }
