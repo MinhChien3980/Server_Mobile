@@ -1,8 +1,6 @@
 package org.example.server_mobile.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,5 +20,11 @@ public class Role {
     String name;
     String description;
     @ManyToMany
+    @JoinTable(
+            name = "role_permission",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id"))
     Set<Permission> permissions;
+    @ManyToMany(mappedBy = "role")
+    Set<User> users;
 }
