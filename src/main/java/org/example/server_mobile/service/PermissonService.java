@@ -9,6 +9,7 @@ import org.example.server_mobile.dto.response.PermissionResponse;
 import org.example.server_mobile.entity.Permission;
 import org.example.server_mobile.mapper.PermissionMapper;
 import org.example.server_mobile.repository.PermissionRepo;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class PermissonService {
     PermissionRepo permissionRepo;
     PermissionMapper permissionMapper;
 
+    @PreAuthorize("hasRole('ADMIN')")
     public PermissionResponse create(PermissionRequest resquest) {
         Permission permission = permissionMapper.toPermission(resquest);
         permission = permissionRepo.save(permission);

@@ -19,9 +19,7 @@ public class AgeGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String young;
-    String old;
-    String other;
+    String age;
     @OneToMany(mappedBy = "ageGroup")
     List<Product> products;
 

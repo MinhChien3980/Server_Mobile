@@ -7,7 +7,10 @@ import org.example.server_mobile.dto.response.ProductResponse;
 import org.example.server_mobile.entity.Product;
 import org.example.server_mobile.mapper.ProductMapper;
 import org.example.server_mobile.repository.ProductRepo;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,12 +19,18 @@ public class ProductService {
     ProductRepo productRepo;
     ProductMapper productMapper;
 
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse createProduct(ProductRequest request) {
         Product product = productMapper.toProduct(request);
-        productRepo.save(product);
-        return productMapper.toProductResponse(product);
+        product.setStatus((byte) ("ACTIVE".equals(request.getStatus()) ? 1 : 0));
+        return productMapper.toProductResponse(productRepo.save(product));
     }
 
+    public List<Product> allProduct() {
+        return productRepo.findAll();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(String id) {
         productRepo.deleteById(id);
     }
