@@ -1,5 +1,6 @@
 package org.example.server_mobile.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,11 +30,6 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
-    Byte status;
-    String address;
-    String phone;
-    Byte gender;
-    LocalDate dateOfBirth;
     @CreatedDate
     Date createdAt;
 }

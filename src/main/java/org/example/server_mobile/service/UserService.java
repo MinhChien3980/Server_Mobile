@@ -49,6 +49,8 @@ public class UserService {
         HashSet<Role> roles = new HashSet<>();
         roleRepo.findById(PredefinedRole.USER_ROLE).ifPresent(roles :: add);
         newUser.setRole(roles);
+        newUser.setFullName(userRequest.getFullName());
+        newUser.setPhoneNumber(userRequest.getPhoneNumber());
         try {
             newUser = userRepo.save(newUser);
         } catch (DataIntegrityViolationException exception) {

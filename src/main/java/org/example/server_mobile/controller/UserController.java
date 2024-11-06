@@ -8,6 +8,9 @@ import org.example.server_mobile.dto.request.UserCreationRequest;
 import org.example.server_mobile.dto.response.UserResponse;
 import org.example.server_mobile.entity.User;
 import org.example.server_mobile.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     UserService userService;
 
     @PostMapping
@@ -29,8 +33,8 @@ public class UserController {
     @GetMapping
     ApiResponse<List<User>> getAllUsers() {
 
-//        var authen = SecurityContextHolder.getContext().getAuthentication();
-//        System.out.println("Authen: " + authen);
+        var authen = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Authen: {}", authen);
         return ApiResponse.<List<User>>builder()
                 .data(userService.getAllUsers())
                 .build();

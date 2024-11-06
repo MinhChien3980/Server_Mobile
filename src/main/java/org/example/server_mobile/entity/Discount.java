@@ -1,5 +1,6 @@
 package org.example.server_mobile.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,18 +25,14 @@ public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @ManyToMany
-    @JoinTable(
-            name = "discount_product",
-            joinColumns = @JoinColumn(name = "discount_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    Set<Product> products;
     @OneToMany(mappedBy = "discount")
     List<Order> orders;
     String code;
     String description;
     Double discountPercentage;
+    @JsonFormat(pattern = "dd-MM-yyyy'T'HH:mm:ss")
     LocalDateTime validDate;
+    @JsonFormat(pattern = "dd-MM-yyyy'T'HH:mm:ss")
     LocalDateTime invalidDate;
     @CreatedDate
     @UpdateTimestamp

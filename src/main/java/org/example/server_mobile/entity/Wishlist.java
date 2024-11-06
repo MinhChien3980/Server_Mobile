@@ -21,8 +21,5 @@ public class Wishlist {
     Long id;
     @OneToOne
     @JoinColumn(name = "user_id")
-     User user;
-    @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<WishlistItem> wishlistItems;
-
+    User user;
 }

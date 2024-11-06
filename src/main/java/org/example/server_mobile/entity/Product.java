@@ -43,6 +43,8 @@ public class Product {
     List<ProductMedia> productMedia;
     @ManyToMany
     Set<Discount> discount;
+    @ManyToMany
+    Set<Wishlist> wishlist;
     Byte status;
     Double stock;
     @CreatedDate

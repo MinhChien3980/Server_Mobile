@@ -25,7 +25,7 @@ public class ProductResponse {
     String name;
     String description;
     Double price;
-    Byte status;
+    String status;
     Double stock;
     Size size;
     Gender gender;
