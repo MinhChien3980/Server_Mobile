@@ -20,13 +20,14 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class UserCreationRequest {
-    String name;
+    String fullName;
     String email;
     @Size(min = 8, max = 20, message = "INVALID_PASSWORD")
     String password;
     Set<Role> role;
     LocalDate dateOfBirth;
     String status;
+    String phoneNumber;
     Date created_at;
     Date updated_at;
 
