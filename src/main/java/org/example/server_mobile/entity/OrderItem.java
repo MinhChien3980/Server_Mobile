@@ -7,18 +7,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Set;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class Role {
+public class OrderItem {
     @Id
-    String name;
-    String description;
-    @ManyToMany
-    Set<Permission> permissions;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "product_variant_id")
+    ProductVariant productVariant;
+
 }

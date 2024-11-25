@@ -1,15 +1,13 @@
 package org.example.server_mobile.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,8 +15,13 @@ import java.util.Set;
 @Builder
 @Entity
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class Permission {
+public class Cart {
     @Id
-    String name;
-    String description;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    User user;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<CartItem> cartItems;
 }

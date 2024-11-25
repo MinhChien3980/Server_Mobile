@@ -49,14 +49,13 @@ public class UserService {
         HashSet<Role> roles = new HashSet<>();
         roleRepo.findById(PredefinedRole.USER_ROLE).ifPresent(roles :: add);
         newUser.setRole(roles);
+        newUser.setFullName(userRequest.getFullName());
+        newUser.setPhoneNumber(userRequest.getPhoneNumber());
         try {
             newUser = userRepo.save(newUser);
         } catch (DataIntegrityViolationException exception) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-        newUser.setCreated_at(new Date());
-        newUser.setUpdated_at(new Date());
-
         return userMapper.toUserResponse(userRepo.save(newUser));
     }
 
@@ -80,7 +79,6 @@ public class UserService {
         log.info("Updating user with id: {}", id);
         User existingUser = userRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        existingUser.setUpdated_at(new Date());
         log.info("Existing user: {}", existingUser.toString());
         userMapper.updateUser(user, existingUser);
         existingUser.setDateOfBirth(user.getDateOfBirth());

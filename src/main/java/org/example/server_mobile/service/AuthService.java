@@ -5,7 +5,6 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
@@ -20,7 +19,7 @@ import org.example.server_mobile.entity.InvalidatedToken;
 import org.example.server_mobile.entity.User;
 import org.example.server_mobile.exception.AppException;
 import org.example.server_mobile.exception.ErrorCode;
-import org.example.server_mobile.repository.InvalidatedTokenRepository;
+import org.example.server_mobile.repository.InvalidatedTokenRepo;
 import org.example.server_mobile.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,7 +40,7 @@ import java.util.UUID;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class AuthService {
     UserRepo userRepository;
-    InvalidatedTokenRepository invalidatedTokenRepository;
+    InvalidatedTokenRepo invalidatedTokenRepository;
 
     @NonFinal
     @Value("${jwt.secret}")
