@@ -20,4 +20,5 @@ jwt:
 
 logging:
   level:
-    org.example.server_mobile.controller: WARN
+    root: INFO
+    org.example.server_mobile.controller: DEBUG

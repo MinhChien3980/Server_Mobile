@@ -22,8 +22,8 @@ import java.util.*;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String fullName;
     String email;
     String password;

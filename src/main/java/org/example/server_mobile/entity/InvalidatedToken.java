@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 public class InvalidatedToken {
     @Id
-    String id;
+    Long id;
 
     Date expiryTime;
 }
