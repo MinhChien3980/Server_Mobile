@@ -20,6 +20,6 @@ public class Size {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String sizeOfShoes;
+    int sizeOfShoes;
 
 }

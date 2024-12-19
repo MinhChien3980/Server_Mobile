@@ -47,7 +47,7 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         newUser.setStatus((byte) ("ACTIVE".equals(userRequest.getStatus()) ? 1 : 0));
         HashSet<Role> roles = new HashSet<>();
-        roleRepo.findById(PredefinedRole.USER_ROLE).ifPresent(roles :: add);
+        roleRepo.findById(Long.valueOf(PredefinedRole.USER_ROLE)).ifPresent(roles :: add);
         newUser.setRole(roles);
         newUser.setFullName(userRequest.getFullName());
         newUser.setPhoneNumber(userRequest.getPhoneNumber());
@@ -65,7 +65,7 @@ public class UserService {
     }
 
     @PostAuthorize("returnObject.email == authentication.name")
-    public UserResponse getUserById(String id) {
+    public UserResponse getUserById(Long id) {
         User user = userRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -75,7 +75,7 @@ public class UserService {
     }
 
     @PostAuthorize("returnObject.email == authentication.name")
-    public UserResponse updateUser(String id, UserCreationRequest user) {
+    public UserResponse updateUser(Long id, UserCreationRequest user) {
         log.info("Updating user with id: {}", id);
         User existingUser = userRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -97,7 +97,7 @@ public class UserService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteUser(String id) {
+    public void deleteUser(Long id) {
         userRepo.deleteById(id);
     }
 

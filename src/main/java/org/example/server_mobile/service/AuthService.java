@@ -90,7 +90,7 @@ public class AuthService {
             Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
 
             InvalidatedToken invalidatedToken =
-                    InvalidatedToken.builder().id(jit).expiryTime(expiryTime).build();
+                    InvalidatedToken.builder().id(Long.valueOf(jit)).expiryTime(expiryTime).build();
             log.info("Token already expired:{} ", invalidatedToken);
             invalidatedTokenRepository.save(invalidatedToken);
             log.info("Token already expired:{} ", invalidatedToken + " saved");
@@ -106,7 +106,7 @@ public class AuthService {
         var expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
 
         InvalidatedToken invalidatedToken =
-                InvalidatedToken.builder().id(jit).expiryTime(expiryTime).build();
+                InvalidatedToken.builder().id(Long.valueOf(jit)).expiryTime(expiryTime).build();
 
         log.info("Token already expired:{} ", invalidatedToken);
         invalidatedTokenRepository.save(invalidatedToken);
@@ -165,7 +165,7 @@ public class AuthService {
 
         if (!(verified && expiryTime.after(new Date()))) throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
+        if (invalidatedTokenRepository.existsById(Long.valueOf(signedJWT.getJWTClaimsSet().getJWTID())))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         return signedJWT;

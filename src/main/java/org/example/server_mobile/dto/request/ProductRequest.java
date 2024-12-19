@@ -9,8 +9,10 @@ import org.example.server_mobile.entity.AgeGroup;
 import org.example.server_mobile.entity.Gender;
 import org.example.server_mobile.entity.ProductMedia;
 import org.example.server_mobile.entity.Size;
+import org.example.server_mobile.entity.enums.AgeGroupCategory;
 
 import java.util.List;
+import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 
