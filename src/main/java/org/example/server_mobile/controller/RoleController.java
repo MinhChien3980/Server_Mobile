@@ -33,7 +33,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/{role}")
-    ApiResponse<Void> delete(@PathVariable String role) {
+    ApiResponse<Void> delete(@PathVariable Long role) {
         roleService.delete(role);
         return ApiResponse.<Void>builder().build();
     }
