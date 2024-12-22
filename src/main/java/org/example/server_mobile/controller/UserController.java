@@ -44,6 +44,7 @@ public class UserController {
     ApiResponse<UserResponse> getUserById(@PathVariable Long id) {
         return ApiResponse.<UserResponse>builder()
                 .data(userService.getUserById(id))
+                .code(200)
                 .build();
     }
 

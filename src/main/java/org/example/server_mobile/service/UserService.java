@@ -47,7 +47,7 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         newUser.setStatus((byte) ("ACTIVE".equals(userRequest.getStatus()) ? 1 : 0));
         HashSet<Role> roles = new HashSet<>();
-        roleRepo.findById(Long.valueOf(PredefinedRole.USER_ROLE)).ifPresent(roles :: add);
+        roleRepo.findByName(PredefinedRole.USER_ROLE).ifPresent(roles :: add);
         newUser.setRole(roles);
         newUser.setFullName(userRequest.getFullName());
         newUser.setPhoneNumber(userRequest.getPhoneNumber());
@@ -64,10 +64,10 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    @PostAuthorize("returnObject.email == authentication.name")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponse getUserById(Long id) {
         User user = userRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         System.out.println("User entity: " + user);
 
