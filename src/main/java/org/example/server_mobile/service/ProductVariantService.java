@@ -31,7 +31,7 @@ public class ProductVariantService {
 //    }
 
     public void deleteProductVariant(Long id) {
-        productVariantRepo.deleteById(String.valueOf(id));
+        productVariantRepo.deleteById(id);
     }
 
 }

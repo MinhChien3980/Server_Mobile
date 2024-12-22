@@ -1,6 +1,8 @@
 package org.example.server_mobile.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -16,7 +18,8 @@ import java.util.Date;
 @Entity
 public class InvalidatedToken {
     @Id
-    String id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    String token;
     Date expiryTime;
 }

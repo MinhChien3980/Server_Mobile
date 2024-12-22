@@ -37,7 +37,7 @@ public class RoleService {
         return roleRepo.findAll().stream().map(roleMapper::toRoleResponse).toList();
     }
 
-    public void delete(String role) {
+    public void delete(Long role) {
         roleRepo.deleteById(role);
     }
 }

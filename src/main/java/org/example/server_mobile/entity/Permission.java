@@ -1,8 +1,6 @@
 package org.example.server_mobile.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +17,8 @@ import java.util.Set;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class Permission {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String name;
     String description;
 }
