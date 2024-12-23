@@ -25,8 +25,6 @@ public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @OneToMany(mappedBy = "discount")
-    List<Order> orders;
     String code;
     String description;
     Double discountPercentage;
