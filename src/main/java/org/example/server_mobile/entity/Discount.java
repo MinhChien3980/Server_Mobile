@@ -13,7 +13,6 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -25,6 +24,8 @@ public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @OneToMany(mappedBy = "discount")
+    List<Order> orders;
     String code;
     String description;
     Double discountPercentage;
@@ -37,4 +38,7 @@ public class Discount {
     Date createdAt;
     @UpdateTimestamp
     Date updatedAt;
+    int getAmount() {
+        return (int) (discountPercentage * 100);
+    }
 }

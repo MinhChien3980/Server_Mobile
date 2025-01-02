@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +22,21 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<OrderItem> orderItems;
-
+    @ManyToOne
+    @JoinColumn(name = "discount_id")
+    Discount discount;
+    @ManyToOne
+    @JoinColumn(name = "carts_id")
+    Carts carts;
+    @Column(name = "order_status")
+    String status;
+    @Column(name = "total_price")
+    Double totalPrice;
+    @Column(name = "total_discount")
+    Double totalDiscount;
+    @Column(name = "grand_total")
+    Double grandTotal;
+    @ManyToOne
+    @JoinColumn(name = "addresses_id")
+    Addresses addresses;
 }

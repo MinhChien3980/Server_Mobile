@@ -9,6 +9,7 @@ spring:
     username: "root"
     password: "root"
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -22,6 +23,7 @@ jwt:
 logging:
   level:
     org:
+#      hibernate: DEBUG
       springdoc: DEBUG
       springframework :
         security: DEBUG

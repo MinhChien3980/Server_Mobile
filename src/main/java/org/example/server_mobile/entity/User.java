@@ -11,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
@@ -31,7 +30,7 @@ public class User {
     Set<Role> role;
     Byte status;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    Cart cart;
+    Carts carts;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     Wishlist wishlist;
     @OneToMany(mappedBy = "user")

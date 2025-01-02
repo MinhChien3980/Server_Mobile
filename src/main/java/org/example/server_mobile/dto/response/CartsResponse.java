@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.Product;
+import org.example.server_mobile.entity.CartPrice;
+import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
+
+import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -14,13 +17,10 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class CartItemResponse {
+public class CartsResponse {
     Long id;
-    Product product;
-    String productName;
-    Integer quantity;
-    int grandTotal;
-    int discount;
-    int productPrice;
+    List<CartItemResponse> cartItems;
+    Address address;
+    CartPrice cartPrice;
     String errorMessage;
 }

@@ -21,7 +21,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class ProductResponse {
-    String id;
+    Long id;
     String name;
     String description;
     Double price;
