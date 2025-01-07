@@ -13,6 +13,17 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  mail :
+    host: smtp.gmail.com
+    port: 587
+    username: "chien.bm3980@gmail.com"
+    password: "rpatwgsxysrzstzr"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 jwt:
 #  secret: "${JWT_SECRET}"
@@ -23,7 +34,8 @@ jwt:
 logging:
   level:
     org:
-#      hibernate: DEBUG
+      hibernate:
+        SQL: DEBUG
       springdoc: DEBUG
       springframework :
         security: DEBUG

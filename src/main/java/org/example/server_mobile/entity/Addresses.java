@@ -33,8 +33,8 @@ public class Addresses {
 
     @Column(nullable = true, columnDefinition = "VARCHAR(255)")
     String zip;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = true)
     @JsonIgnore
     User user;
 

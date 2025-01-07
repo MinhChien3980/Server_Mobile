@@ -100,6 +100,7 @@ public class CartService {
             cartItem = CartItem.builder()
                     .product(product)
                     .quantity(quantity)
+                    .carts(carts)
                     .build();
             cartItems.add(cartItem);
         } else {

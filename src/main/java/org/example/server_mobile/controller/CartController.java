@@ -22,7 +22,7 @@ public class CartController {
                 .build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping
     ApiResponse<CartsResponse> getCart(@RequestParam Long id) {
         return ApiResponse.<CartsResponse>builder()
                 .data(cartService.getCart(id))

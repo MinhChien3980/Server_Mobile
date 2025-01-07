@@ -26,7 +26,7 @@ import org.springframework.web.filter.CorsFilter;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig {
     String[] PUBLIC_ENDPOINTS = {
-            "/users", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
+            "/users", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/cart"
     };
 
     CustomJwtDecoder customJwtDecoder;

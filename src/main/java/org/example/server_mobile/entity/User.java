@@ -39,7 +39,8 @@ public class User {
     Set<Review> review;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<ActivityLog> activityLog;
-    String address;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    Addresses addresses;
     String phoneNumber;
     @JsonFormat(pattern = "dd-MM-yyyy")
     LocalDate dateOfBirth;
