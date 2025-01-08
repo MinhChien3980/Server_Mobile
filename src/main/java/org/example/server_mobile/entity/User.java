@@ -2,10 +2,7 @@ package org.example.server_mobile.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,6 +15,7 @@ import java.util.*;
 @NoArgsConstructor
 @Builder
 @Entity
+@ToString(exclude = "carts")
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class User {
     @Id

@@ -29,7 +29,7 @@ public class Order {
     @JoinColumn(name = "carts_id")
     Carts carts;
     @Column(name = "order_status")
-    String status;
+    int status;
     @Column(name = "total_price")
     Double totalPrice;
     @Column(name = "total_discount")

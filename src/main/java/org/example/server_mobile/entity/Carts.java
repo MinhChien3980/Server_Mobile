@@ -1,10 +1,7 @@
 package org.example.server_mobile.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@ToString(exclude = "user")
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class Carts {
     @Id
