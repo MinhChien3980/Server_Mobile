@@ -29,8 +29,8 @@ public class Product {
     Category category;
     String description;
     Double price;
-    @ManyToMany
-    List<Size> size;
+    @ManyToOne
+    Size size;
     @ManyToOne
     @JoinColumn(name = "gender_id")
     Gender gender;

@@ -31,7 +31,7 @@ public class OrderService {
         return orderRepo.findByUserId(userId);
     }
 
-    public void changeOrderStatus(Long id, String status) {
+    public void changeOrderStatus(Long id, int status) {
         Order order = orderRepo.findById(id).orElseThrow(
                 () -> new ApiException(404, "Order not found"));
         order.setStatus(status);
