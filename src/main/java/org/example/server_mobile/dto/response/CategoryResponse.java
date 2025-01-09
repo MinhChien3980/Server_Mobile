@@ -1,16 +1,14 @@
 package org.example.server_mobile.dto.response;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.AgeGroup;
-import org.example.server_mobile.entity.Gender;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.util.Date;
+import org.example.server_mobile.entity.enums.AgeGroupCategory;
+import org.example.server_mobile.entity.enums.Gender;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -23,12 +21,10 @@ public class CategoryResponse {
     Long id;
     String name;
     String description;
-    AgeGroup age;
+    @Enumerated(EnumType.STRING)
+    AgeGroupCategory age;
+    @Enumerated(EnumType.STRING)
     Gender gender;
-    @CreatedDate
-    @UpdateTimestamp
-    Date createdAt;
-    @UpdateTimestamp
-    Date updatedAt;
+
 
 }

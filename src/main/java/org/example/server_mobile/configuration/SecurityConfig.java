@@ -2,7 +2,6 @@ package org.example.server_mobile.configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,7 +25,8 @@ import org.springframework.web.filter.CorsFilter;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig {
     String[] PUBLIC_ENDPOINTS = {
-            "/users/**", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/cart"
+            "/users/**", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
+            , "/cart", "/categories", "/categories/**"
     };
 
     CustomJwtDecoder customJwtDecoder;

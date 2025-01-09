@@ -1,12 +1,14 @@
 package org.example.server_mobile.dto.request;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.AgeGroup;
-import org.example.server_mobile.entity.Gender;
+import org.example.server_mobile.entity.enums.AgeGroupCategory;
+import org.example.server_mobile.entity.enums.Gender;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -23,12 +25,7 @@ public class CategoryRequest {
     Long id;
     String name;
     String description;
-    AgeGroup age;
+    AgeGroupCategory age;
     Gender gender;
-    @CreatedDate
-    @UpdateTimestamp
-    Date createdAt;
-    @UpdateTimestamp
-    Date updatedAt;
 
 }
