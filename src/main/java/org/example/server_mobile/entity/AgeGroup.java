@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.entity.enums.AgeGroupCategory;
 
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,8 +22,7 @@ public class AgeGroup {
     @Enumerated(EnumType.STRING)
     AgeGroupCategory age;
     String other;
-    @OneToMany(mappedBy = "ageGroup")
-    List<Product> products;
-
+    // @OneToMany(mappedBy = "ageGroup")
+    // List<Product> products;
 
 }

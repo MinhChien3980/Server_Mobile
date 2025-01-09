@@ -1,37 +1,29 @@
-package org.example.server_mobile.entity;
+package org.example.server_mobile.dto.response;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.server_mobile.entity.AgeGroup;
+import org.example.server_mobile.entity.Gender;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
-import java.util.List;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@FieldDefaults(level = PRIVATE)
+public class CategoryResponse {
     Long id;
     String name;
     String description;
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    List<Product> products;
-
-    @ManyToOne
-    @JoinColumn(name = "age_group_id")
     AgeGroup age;
-    @ManyToOne
-    @JoinColumn(name = "gender_id")
     Gender gender;
     @CreatedDate
     @UpdateTimestamp
