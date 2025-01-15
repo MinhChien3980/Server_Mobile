@@ -18,7 +18,9 @@ public class OrderRequest {
     Long cartId;
     Long orderId;
     Long userId;
+    String code;
+    double shippingFee;
 
-    int status;
+    int orderStatus;
     String address;
 }

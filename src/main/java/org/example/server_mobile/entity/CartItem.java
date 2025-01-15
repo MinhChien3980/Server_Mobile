@@ -33,7 +33,7 @@ public class CartItem {
     Product product;
 
     int quantity;
-    int grandTotal;
+    double grandTotal;
     int discount;
 
     @Enumerated(EnumType.STRING)

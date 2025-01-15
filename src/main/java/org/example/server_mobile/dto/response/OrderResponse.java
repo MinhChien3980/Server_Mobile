@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
 import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -19,13 +20,15 @@ public class OrderResponse {
 
     Long id;
     Long userId;
-    Long discountId;
-    Long cartId;
-    Integer status;
+    String userName;
+    int status;
     Double totalPrice;
     Double totalDiscount;
     Double grandTotal;
+    double shippingFee;
     String address;
-    List<CartItemResponse> items;
+    Date createdAt;
+    List<CartItemResponse> cartItems;
+
 
 }

@@ -10,6 +10,7 @@ import org.example.server_mobile.entity.enums.Gender;
 import org.example.server_mobile.entity.enums.ShoeSize;
 
 import java.util.List;
+import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -20,13 +21,13 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class ProductRequest {
     String name;
+    Long categoryId;
     String description;
     Double price;
+    List<ShoeSize> size;
+    List<String> productMediaUrls;
+    Set<Long> discountIds;
+    Set<Long> wishlistIds;
     String status;
     Double stock;
-    List<ShoeSize> size;
-    Gender gender;
-    CategoryRequest category;
-//    AgeGroup ageGroup;
-    List<ProductMedia> productMedia;
 }

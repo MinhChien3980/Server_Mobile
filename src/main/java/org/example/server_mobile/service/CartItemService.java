@@ -1,5 +1,6 @@
 package org.example.server_mobile.service;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.dto.request.CartsItemRequest;
@@ -10,10 +11,8 @@ import org.example.server_mobile.entity.Order;
 import org.example.server_mobile.entity.Product;
 import org.example.server_mobile.entity.enums.TypeItem;
 import org.example.server_mobile.mapper.CartsItemMapper;
-import org.example.server_mobile.repository.CartsItemRepo;
-import org.example.server_mobile.repository.CartsRepo;
-import org.example.server_mobile.repository.OrderRepo;
-import org.example.server_mobile.repository.ProductRepo;
+import org.example.server_mobile.repository.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,24 +20,30 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CartItemService implements IService<CartsItemRequest, CartItemResponse> {
     CartsItemMapper cartItemMapper;
     CartsItemRepo cartsItemRepo;
     OrderRepo orderRepo;
     CartsRepo cartsRepo;
     ProductRepo productRepo;
+    DiscountRepo discountRepo;
 
     @Override
+    @PreAuthorize("hasRole('USER')")
     public CartItemResponse create(CartsItemRequest request) {
-        System.out.println(request);
         CartItem cartItem = cartItemMapper.toCartItem(request);
 
         Optional<Product> product = productRepo.findById(request.getProductId());
         Optional<Carts> cart = cartsRepo.findById(request.getCartId());
-        System.out.println(product);
-        System.out.println(cart);
-        System.out.println(cartItem);
+
+
+        List<CartItem> cartItemList = cartsItemRepo.findByCarts(cart.get());
+        double grandTotal = cartItemList.stream()
+                .mapToDouble(c -> c.getProduct().getPrice())
+                .sum();
+
+        cartItem.setGrandTotal(grandTotal);
         cartItem.setCarts(cart.get());
         cartItem.setProduct(product.get());
         cartsItemRepo.save(cartItem);
@@ -68,6 +73,7 @@ public class CartItemService implements IService<CartsItemRequest, CartItemRespo
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<CartItemResponse> findAll() {
         return cartsItemRepo.findAll().stream().map(cartItemMapper::toCartItemResponse).toList();
 

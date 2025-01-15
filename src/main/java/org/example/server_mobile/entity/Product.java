@@ -33,13 +33,8 @@ public class Product {
 
     @ElementCollection(targetClass = ShoeSize.class)
     @CollectionTable(name = "product_sizes", joinColumns = @JoinColumn(name = "product_id"))
-    @Enumerated(EnumType.STRING) // Lưu dưới dạng chuỗi
+    @Enumerated(EnumType.STRING)
     List<ShoeSize> size;
-    //    @Enumerated(EnumType.STRING)
-//    Gender gender;
-    //    @ManyToOne
-//    @JoinColumn(name = "age_group_id")
-//    AgeGroup ageGroup;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     List<ProductMedia> productMedia;
     @ManyToMany
