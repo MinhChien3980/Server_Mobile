@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.enums.Gender;
+import org.example.server_mobile.entity.enums.ShoeSize;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -30,10 +30,13 @@ public class Product {
     Category category;
     String description;
     Double price;
-    @ManyToOne
-    Size size;
-    @Enumerated(EnumType.STRING)
-    Gender gender;
+
+    @ElementCollection(targetClass = ShoeSize.class)
+    @CollectionTable(name = "product_sizes", joinColumns = @JoinColumn(name = "product_id"))
+    @Enumerated(EnumType.STRING) // Lưu dưới dạng chuỗi
+    List<ShoeSize> size;
+    //    @Enumerated(EnumType.STRING)
+//    Gender gender;
     //    @ManyToOne
 //    @JoinColumn(name = "age_group_id")
 //    AgeGroup ageGroup;

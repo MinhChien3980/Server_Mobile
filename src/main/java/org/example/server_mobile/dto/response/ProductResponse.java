@@ -5,9 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.Discount;
 import org.example.server_mobile.entity.enums.Gender;
-import org.example.server_mobile.entity.Size;
+import org.example.server_mobile.entity.enums.ShoeSize;
 
 import java.util.List;
 import java.util.Set;
@@ -26,11 +25,12 @@ public class ProductResponse {
     Double price;
     String status;
     Double stock;
-    Size size;
+    List<ShoeSize> size;
     Gender gender;
 //    AgeGroup ageGroup;
     List<ProductMediaResponse> productMedia;
     Set<DiscountResponse> discount;
     String created_at;
     String updated_at;
+    CategoryResponse category;
 }
