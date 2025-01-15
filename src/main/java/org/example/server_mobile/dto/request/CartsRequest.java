@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
 import static lombok.AccessLevel.PRIVATE;
 
 @Data
@@ -13,9 +12,9 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class AddToCardRequest {
-    Long cartId;
-    Long productId;
-    int quantity;
+public class CartsRequest {
+    Long id;
+    Long carts_id;
+    Long user_id;
 
 }

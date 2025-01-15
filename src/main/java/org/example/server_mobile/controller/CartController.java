@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.dto.request.*;
 import org.example.server_mobile.dto.response.CartsResponse;
+import org.example.server_mobile.entity.enums.TypeItem;
+import org.example.server_mobile.service.CartItemService;
 import org.example.server_mobile.service.CartService;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
 
     CartService cartService;
+    CartItemService cartItemService;
 
     @PostMapping("/create")
     ApiResponse<CartsResponse> createCart(@RequestParam Long userId) {
@@ -29,10 +32,10 @@ public class CartController {
                 .build();
     }
 
-    @PostMapping("/{id}/addToCart")
-    public ApiResponse<String> addToCart(@RequestParam Long cartId, @RequestBody AddToCardRequest addToCardRequest) {
-        cartService.addToCart(cartId, addToCardRequest.getProductId(),
-                addToCardRequest.getQuantity());
+    @PostMapping("/additem")
+    public ApiResponse<String> addToCart(@RequestBody CartsItemRequest cartsItemRequest) {
+        cartsItemRequest.setTypeItem(TypeItem.CART);
+        cartItemService.create(cartsItemRequest);
         return ApiResponse.<String>builder().data("Product added to cart").code(200).build();
     }
 

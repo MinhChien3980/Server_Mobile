@@ -21,7 +21,7 @@ public class CategoryController implements IController<CategoryRequest, Category
     CategoryService categoryService;
 
     @Override
-    @PostMapping("/create")
+    @PostMapping
     public ApiResponse<CategoryResponse> create(@RequestBody CategoryRequest categoryRequest) {
         CategoryResponse categoryResponse = categoryService.create(categoryRequest);
         return ApiResponse.<CategoryResponse>builder()
@@ -39,7 +39,7 @@ public class CategoryController implements IController<CategoryRequest, Category
     }
 
     @Override
-    @PostMapping("/{id}/update")
+    @PutMapping("/{id}")
     public ApiResponse<String> update(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
         categoryRequest.setId(id);  // Set ID for update operation
         categoryService.update(categoryRequest);
@@ -50,7 +50,7 @@ public class CategoryController implements IController<CategoryRequest, Category
     }
 
     @Override
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ApiResponse<String> delete(@PathVariable Long id) {
         categoryService.delete(id);
         return ApiResponse.<String>builder()

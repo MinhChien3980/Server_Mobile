@@ -1,10 +1,12 @@
-package org.example.server_mobile.dto.request;
+package org.example.server_mobile.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -13,9 +15,17 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class AddToCardRequest {
+public class OrderResponse {
+
+    Long id;
+    Long userId;
+    Long discountId;
     Long cartId;
-    Long productId;
-    int quantity;
+    Integer status;
+    Double totalPrice;
+    Double totalDiscount;
+    Double grandTotal;
+    String address;
+    List<CartItemResponse> items;
 
 }
