@@ -19,6 +19,7 @@ public class CartsItemRequest {
     Long cartId;
     Long orderId;
     Long productId;
+    String code;
     int quantity;
     double grandTotal;
     double discount;
