@@ -62,4 +62,10 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ProductResponse getById(Long id) {
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        return productMapper.toProductResponse(product);
+    }
 }
