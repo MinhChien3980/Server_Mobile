@@ -13,9 +13,12 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class AddToCardRequest {
+public class OrderRequest {
+    Long id;
     Long cartId;
-    Long productId;
-    int quantity;
+    Long orderId;
+    Long userId;
 
+    int status;
+    String address;
 }

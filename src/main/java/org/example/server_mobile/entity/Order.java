@@ -6,7 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,15 +31,23 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "carts_id")
     Carts carts;
-    @Column(name = "order_status")
+    @Column(name = "order_status", nullable = false, columnDefinition = "DOUBLE DEFAULT 0")
     int status;
-    @Column(name = "total_price")
-    Double totalPrice;
-    @Column(name = "total_discount")
-    Double totalDiscount;
-    @Column(name = "grand_total")
+    @Column(name = "total_price", nullable = false, columnDefinition = "DOUBLE DEFAULT 0")
+    Double totalPrice = 0.0;
+    @Column(name = "total_discount", nullable = false, columnDefinition = "DOUBLE DEFAULT 0")
+    Double totalDiscount = 0.0;
+    @Column(name = "grand_total", nullable = false, columnDefinition = "DOUBLE DEFAULT 0")
+
     Double grandTotal;
-    @ManyToOne
-    @JoinColumn(name = "addresses_id")
-    Addresses addresses;
+    //    @ManyToOne
+//    @JoinColumn(name = "addresses_id")
+//    Addresses addresses;
+    String address;
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    Date createdAt;
+    @OneToMany(mappedBy = "order")
+    List<CartItem> cartItems;
+
 }

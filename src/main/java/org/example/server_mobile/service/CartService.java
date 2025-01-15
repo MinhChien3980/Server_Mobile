@@ -5,9 +5,10 @@ import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.dto.request.AddressesRequest;
 import org.example.server_mobile.dto.response.CartsResponse;
 import org.example.server_mobile.entity.*;
+import org.example.server_mobile.entity.enums.TypeItem;
 import org.example.server_mobile.exception.ApiException;
 import org.example.server_mobile.mapper.AddressesMapper;
-import org.example.server_mobile.mapper.CartItemMapper;
+import org.example.server_mobile.mapper.CartsItemMapper;
 import org.example.server_mobile.mapper.CartsMapper;
 import org.example.server_mobile.repository.CartsRepo;
 import org.example.server_mobile.repository.ProductRepo;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class CartService {
     CartsRepo cartsRepo;
     CartsMapper cartsMapper;
-    CartItemMapper cartItemMapper;
+    CartsItemMapper cartItemMapper;
     AddressesMapper addressesMapper;
     ProductRepo productRepo;
 
@@ -101,6 +102,7 @@ public class CartService {
                     .product(product)
                     .quantity(quantity)
                     .carts(carts)
+                    .typeItem(TypeItem.CART)
                     .build();
             cartItems.add(cartItem);
         } else {
