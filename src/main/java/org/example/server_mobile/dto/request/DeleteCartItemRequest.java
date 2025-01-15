@@ -1,4 +1,4 @@
-package org.example.server_mobile.dto.response;
+package org.example.server_mobile.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +13,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class AgeGroupResponse {
-    Long id;
-    String young;
-    String old;
-    String other;
+public class DeleteCartItemRequest {
+    Long productId;
+    Long cartId;
 }

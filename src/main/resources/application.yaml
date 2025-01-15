@@ -9,9 +9,21 @@ spring:
     username: "root"
     password: "root"
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
+  mail :
+    host: smtp.gmail.com
+    port: 587
+    username: "chien.bm3980@gmail.com"
+    password: "rpatwgsxysrzstzr"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 jwt:
 #  secret: "${JWT_SECRET}"
@@ -22,6 +34,8 @@ jwt:
 logging:
   level:
     org:
+      hibernate:
+        SQL: DEBUG
       springdoc: DEBUG
       springframework :
         security: DEBUG

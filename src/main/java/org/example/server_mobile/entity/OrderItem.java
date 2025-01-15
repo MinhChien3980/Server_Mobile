@@ -7,26 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Entity
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
+//@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Builder
+//@Entity
+//@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "product_variant_id")
-    ProductVariant productVariant;
 
 }

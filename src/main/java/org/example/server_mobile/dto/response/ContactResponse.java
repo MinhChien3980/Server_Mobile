@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.Product;
+import org.example.server_mobile.entity.User;
+
+import java.util.Date;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -14,13 +16,11 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class CartItemResponse {
+public class ContactResponse {
     Long id;
-    Product product;
-    String productName;
-    Integer quantity;
-    int grandTotal;
-    int discount;
-    int productPrice;
-    String errorMessage;
+    String description;// Noi dung feedback
+    User user;// id nguoi dung
+    Date createdAt;// thoi gian tao feedback
+
+
 }

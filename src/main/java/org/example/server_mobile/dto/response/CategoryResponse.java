@@ -1,15 +1,14 @@
-package org.example.server_mobile.dto.request;
+package org.example.server_mobile.dto.response;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.ProductMedia;
+import org.example.server_mobile.entity.enums.AgeGroupCategory;
 import org.example.server_mobile.entity.enums.Gender;
-import org.example.server_mobile.entity.enums.ShoeSize;
-
-import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -18,15 +17,14 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class ProductRequest {
+public class CategoryResponse {
+    Long id;
     String name;
     String description;
-    Double price;
-    String status;
-    Double stock;
-    List<ShoeSize> size;
+    @Enumerated(EnumType.STRING)
+    AgeGroupCategory age;
+    @Enumerated(EnumType.STRING)
     Gender gender;
-    CategoryRequest category;
-//    AgeGroup ageGroup;
-    List<ProductMedia> productMedia;
+
+
 }

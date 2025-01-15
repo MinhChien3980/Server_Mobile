@@ -1,4 +1,4 @@
-package org.example.server_mobile.dto.request;
+package org.example.server_mobile.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +13,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class ProductVariantRequest {
-    String color;
-    String sku;
-    Double price;
-    Double stock;
+public class GenderResponse {
+    String gender_name;
+
 }

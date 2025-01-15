@@ -1,11 +1,10 @@
-package org.example.server_mobile.dto.response;
+package org.example.server_mobile.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.Product;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -14,13 +13,8 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class CartItemResponse {
+public class ContactRequest {
     Long id;
-    Product product;
-    String productName;
-    Integer quantity;
-    int grandTotal;
-    int discount;
-    int productPrice;
-    String errorMessage;
+    String description;// Noi dung feedback
+    Integer user_id;
 }

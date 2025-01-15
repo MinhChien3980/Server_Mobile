@@ -2,7 +2,9 @@ package org.example.server_mobile.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import org.example.server_mobile.constant.PredefinedRole;
+import org.example.server_mobile.dto.request.ResetPassRequest;
 import org.example.server_mobile.dto.request.UserCreationRequest;
 import org.example.server_mobile.dto.response.UserResponse;
 import org.example.server_mobile.entity.Role;
@@ -12,19 +14,21 @@ import org.example.server_mobile.exception.ErrorCode;
 import org.example.server_mobile.mapper.UserMapper;
 import org.example.server_mobile.repository.RoleRepo;
 import org.example.server_mobile.repository.UserRepo;
+import org.example.server_mobile.util.RandomGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +40,11 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     RoleRepo roleRepo;
+    JavaMailSender mailSender;
+
+    @NonFinal
+    @Value("${spring.mail.username}")
+    protected String mailFrom;
 
     public UserResponse createUser(UserCreationRequest userRequest) {
 
@@ -109,5 +118,40 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         return userMapper.toUserResponse(byUserName);
+    }
+
+    public void resetPass(ResetPassRequest mail) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        log.info("email: {}", mail);
+        try {
+            Optional<User> optionalUser = userRepo.findByEmail(mail.getEmail());
+            log.info("User found 1: {}", optionalUser);
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                log.info("User found 2: {}", user);
+
+                String newPassword = RandomGenerator.generateRandomPassword();
+
+                PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+                String encodedPassword = passwordEncoder.encode(newPassword);
+                user.setPassword(encodedPassword);
+
+                userRepo.save(user);
+
+                mailMessage.setFrom(mailFrom);
+                mailMessage.setTo(mail.getEmail());
+                mailMessage.setSubject("New Password");
+                mailMessage.setText("Your new password is: " + newPassword);
+                mailSender.send(mailMessage);
+            } else {
+                throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            }
+        } catch (AppException e) {
+            log.error("Error during password reset: {}", e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error during password reset: {}", e.getMessage(), e);
+            throw new AppException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 }
