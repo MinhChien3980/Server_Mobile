@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -93,6 +94,7 @@ public class OrderService implements IService<OrderRequest, OrderResponse> {
 
 
     @Override
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public OrderResponse update(OrderRequest orderRequest) {
 
         Order order = orderMapper.toOrder(orderRequest);
@@ -124,5 +126,12 @@ public class OrderService implements IService<OrderRequest, OrderResponse> {
 
     public List<OrderResponse> findAllByUserId(Long userId) {
         return orderRepo.findByUserId(userId).stream().map(orderMapper::toOrderResponse).toList();
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    public List<OrderResponse> getByUserId(Long userId) {
+        return orderRepo.findByUserId(userId).stream()
+                .map(orderMapper::toOrderResponse)
+                .collect(Collectors.toList());
     }
 }
