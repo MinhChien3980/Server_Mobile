@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.server_mobile.entity.enums.TypeItem;
 
 @Data
 @AllArgsConstructor
@@ -14,19 +15,28 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "carts_id", nullable = true)
+    Carts carts;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = true)
+    Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
     Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "product_variant_id")
-    ProductVariant productVariant;
+    int quantity;
+    double grandTotal;
+    int discount;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_item", nullable = false)
+    TypeItem typeItem;
 }

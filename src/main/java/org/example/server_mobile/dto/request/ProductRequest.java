@@ -5,11 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.AgeGroup;
-import org.example.server_mobile.entity.Gender;
 import org.example.server_mobile.entity.ProductMedia;
-import org.example.server_mobile.entity.Size;
-import org.example.server_mobile.entity.enums.AgeGroupCategory;
+import org.example.server_mobile.entity.enums.Gender;
+import org.example.server_mobile.entity.enums.ShoeSize;
 
 import java.util.List;
 import java.util.Set;
@@ -23,13 +21,13 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class ProductRequest {
     String name;
+    Long categoryId;
     String description;
     Double price;
+    List<ShoeSize> size;
+    List<String> productMediaUrls;
+    Set<Long> discountIds;
+    Set<Long> wishlistIds;
     String status;
     Double stock;
-    Size size;
-    Gender gender;
-    AgeGroup ageGroup;
-    List<ProductVariantRequest> productVariants;
-    List<ProductMedia> productMedia;
 }

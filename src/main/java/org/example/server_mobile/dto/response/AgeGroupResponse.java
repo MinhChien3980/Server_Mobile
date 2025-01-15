@@ -14,7 +14,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class AgeGroupResponse {
-    String id;
+    Long id;
     String young;
     String old;
     String other;

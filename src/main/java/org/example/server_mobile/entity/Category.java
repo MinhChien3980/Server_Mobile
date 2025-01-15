@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.server_mobile.entity.enums.AgeGroupCategory;
+import org.example.server_mobile.entity.enums.Gender;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -24,18 +26,11 @@ public class Category {
     Long id;
     String name;
     String description;
-    @ManyToOne
-    @JoinColumn(name = "parent_cat_id")
-    Category parentCatId;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     List<Product> products;
-    @OneToMany(mappedBy = "parentCatId", cascade = CascadeType.ALL)
-    List<Category> subCategories;
-    @ManyToOne
-    @JoinColumn(name = "age_group_id")
-    AgeGroup age;
-    @ManyToOne
-    @JoinColumn(name = "gender_id")
+    @Enumerated(EnumType.STRING)
+    AgeGroupCategory age;
+    @Enumerated(EnumType.STRING)
     Gender gender;
     @CreatedDate
     @UpdateTimestamp

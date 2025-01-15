@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.dto.request.ApiResponse;
+import org.example.server_mobile.dto.request.ResetPassRequest;
 import org.example.server_mobile.dto.request.UserCreationRequest;
+import org.example.server_mobile.dto.response.MailResponse;
 import org.example.server_mobile.dto.response.UserResponse;
 import org.example.server_mobile.entity.User;
 import org.example.server_mobile.service.UserService;
@@ -44,6 +46,7 @@ public class UserController {
     ApiResponse<UserResponse> getUserById(@PathVariable Long id) {
         return ApiResponse.<UserResponse>builder()
                 .data(userService.getUserById(id))
+                .code(200)
                 .build();
     }
 
@@ -66,6 +69,14 @@ public class UserController {
     ApiResponse<UserResponse> getMyInfo() {
         return ApiResponse.<UserResponse>builder()
                 .data(userService.getMyInfo())
+                .build();
+    }
+    @PostMapping("/reset-pass")
+    ApiResponse resetPass(@RequestBody ResetPassRequest resetPassRequest){
+        userService.resetPass(resetPassRequest);
+        return ApiResponse.builder()
+                .code(200)
+                .data("Reset Password Successful")
                 .build();
     }
 }

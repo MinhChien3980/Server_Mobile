@@ -1,5 +1,11 @@
 package org.example.server_mobile.entity;
 
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,31 +13,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class ProductVariant {
+public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    Product product;
-    @ManyToOne
-    @JoinColumn(name = "size_id")
-    Size size;
-    @OneToMany(mappedBy = "productVariant")
-    List<OrderItem> orderItem;
-    @OneToMany(mappedBy = "productVariant")
-    List<CartItem> cartItems;
-    String color;
-    String sku;
-    Double price;
-    Double stock;
+    String description;// Noi dung feedback
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    User user;// id nguoi dung
 
+    @CreatedDate
+    @UpdateTimestamp
+    Date createdAt;// thoi gian tao feedback
 }

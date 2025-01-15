@@ -19,7 +19,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Data
 @FieldDefaults(level = PRIVATE)
 public class UserResponse {
-    String id;
+    Long id;
     String fullName;
     String email;
     Set<Role> role;
