@@ -18,4 +18,6 @@ public interface CartsItemRepo extends JpaRepository<CartItem, Long> {
     List<CartItem> findByOrder(Order order);
 
     List<CartItem> findByCartsId(Long cartsId);
+
+    CartItem findByCarts_IdAndProductId(Long cartsId, Long productId);
 }

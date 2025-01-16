@@ -1,12 +1,13 @@
 package org.example.server_mobile.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.dto.request.*;
 import org.example.server_mobile.dto.response.CartItemResponse;
 import org.example.server_mobile.dto.response.CartsResponse;
+import org.example.server_mobile.entity.CartItem;
 import org.example.server_mobile.entity.enums.TypeItem;
+import org.example.server_mobile.mapper.CartsItemMapper;
 import org.example.server_mobile.repository.CartsItemRepo;
 import org.example.server_mobile.repository.CartsRepo;
 import org.example.server_mobile.service.CartItemService;
@@ -24,6 +25,7 @@ public class CartController {
     CartService cartService;
     CartItemService cartItemService;
     CartsRepo cartsRepo;
+    private final CartsItemMapper cartsItemMapper;
 
     @PostMapping("/create")
     ApiResponse<CartsResponse> createCart(@RequestParam Long userId) {
@@ -47,9 +49,33 @@ public class CartController {
 
     @PostMapping("/additem")
     public ApiResponse<String> addToCart(@RequestBody CartsItemRequest cartsItemRequest) {
+        // Xác định loại sản phẩm là "CART"
         cartsItemRequest.setTypeItem(TypeItem.CART);
-        cartItemService.create(cartsItemRequest);
-        return ApiResponse.<String>builder().data("Product added to cart").code(200).build();
+
+        // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng hay chưa
+        CartItem existingCartItem = cartsItemRepo.findByCarts_IdAndProductId(
+                cartsItemRequest.getCartId(),
+                cartsItemRequest.getProductId()
+        );
+
+        if (existingCartItem != null) {
+            // Nếu sản phẩm đã tồn tại, cập nhật số lượng
+            existingCartItem.setQuantity(existingCartItem.getQuantity() + cartsItemRequest.getQuantity());
+            cartsItemRepo.save(existingCartItem); // Lưu thay đổi vào cơ sở dữ liệu
+
+            return ApiResponse.<String>builder()
+                    .data("Product quantity updated in cart")
+                    .code(200)
+                    .build();
+        } else {
+            // Nếu sản phẩm chưa tồn tại, thêm mới
+            cartItemService.create(cartsItemRequest);
+
+            return ApiResponse.<String>builder()
+                    .data("Product added to cart")
+                    .code(200)
+                    .build();
+        }
     }
     @PostMapping("/{id}/addToCart")
     public ApiResponse<String> addToCart(@RequestParam Long cartId, @RequestBody AddToCardRequest addToCardRequest) {
