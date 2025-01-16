@@ -1,7 +1,6 @@
 package org.example.server_mobile.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -52,9 +51,9 @@ public class User {
     LocalDate dateOfBirth;
     @CreatedDate
     @UpdateTimestamp
-    Date createdAt;
+    LocalDateTime createdAt;
     @UpdateTimestamp
-    Date updatedAt;
+    LocalDateTime updatedAt;
     @Column(name = "deleted_at")
     Date deletedAt;
     @Column(name = "is_deleted", nullable = false)

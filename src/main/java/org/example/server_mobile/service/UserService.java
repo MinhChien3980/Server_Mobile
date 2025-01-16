@@ -62,6 +62,8 @@ public class UserService {
         newUser.setPhoneNumber(userRequest.getPhoneNumber());
         newUser.setDateOfBirth(userRequest.getDateOfBirth());
         newUser.setAddresses(userRequest.getAddresses());
+        newUser.setCreatedAt(java.time.LocalDateTime.now());
+        newUser.setUpdatedAt(java.time.LocalDateTime.now());
         try {
             newUser = userRepo.save(newUser);
         } catch (DataIntegrityViolationException exception) {
