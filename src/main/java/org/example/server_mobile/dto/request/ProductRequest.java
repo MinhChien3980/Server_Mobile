@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.server_mobile.entity.ProductMedia;
-import org.example.server_mobile.entity.enums.Gender;
 import org.example.server_mobile.entity.enums.ShoeSize;
 
 import java.util.List;
@@ -20,6 +18,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class ProductRequest {
+    Long id;
     String name;
     Long categoryId;
     String description;

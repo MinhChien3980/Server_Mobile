@@ -24,7 +24,7 @@ public class AuthController {
     @PostMapping("/token")
     ApiResponse<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         var re = authService.authenticate(authRequest);
-        return ApiResponse.<AuthResponse>builder()
+        return ApiResponse.<AuthResponse>builder().code(200)
                 .data(re)
                 .build();
     }
