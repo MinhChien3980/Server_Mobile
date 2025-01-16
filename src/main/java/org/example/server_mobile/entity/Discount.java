@@ -36,6 +36,8 @@ public class Discount {
     Date createdAt;
     @UpdateTimestamp
     Date updatedAt;
+    @UpdateTimestamp
+    Date deletedAt;
     int getAmount() {
         return (int) (discountPercentage * 100);
     }

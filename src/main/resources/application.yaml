@@ -28,8 +28,8 @@ spring:
 jwt:
 #  secret: "${JWT_SECRET}"
   secret: "sSkEW/7r25YJQCRBw9LEsCg4/yWv3FDKNCMptG5tUnYq7MdkNz+9saUMmCSENl5Y"
-  valid-duration: 300 # in second
-  refreshable-duration: 900 # in seconds
+  valid-duration: 100000 # in second
+  refreshable-duration: 100000 # in seconds
 
 logging:
   level:

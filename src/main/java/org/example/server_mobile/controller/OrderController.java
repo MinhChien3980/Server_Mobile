@@ -80,6 +80,12 @@ public class OrderController implements IController<OrderRequest, OrderResponse>
                 .data(orderResponses)
                 .build();
     }
-
+    @GetMapping("/user/{userId}")
+    public ApiResponse<List<OrderResponse>> getByUserId(Long userId) {
+        List<OrderResponse> orderResponses = orderService.getByUserId(userId);
+        return ApiResponse.<List<OrderResponse>>builder()
+                .data(orderResponses)
+                .build();
+    }
 
 }

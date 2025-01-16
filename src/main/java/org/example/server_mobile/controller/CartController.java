@@ -31,6 +31,12 @@ public class CartController {
                 .data(cartService.getCart(id))
                 .build();
     }
+    @GetMapping("/user/{id}")
+    ApiResponse<CartsResponse> getCartByUserId(@PathVariable Long id) {
+        return ApiResponse.<CartsResponse>builder()
+                .data(cartService.findByUserId(id))
+                .build();
+    }
 
     @PostMapping("/additem")
     public ApiResponse<String> addToCart(@RequestBody CartsItemRequest cartsItemRequest) {
@@ -38,7 +44,12 @@ public class CartController {
         cartItemService.create(cartsItemRequest);
         return ApiResponse.<String>builder().data("Product added to cart").code(200).build();
     }
-
+    @PostMapping("/{id}/addToCart")
+    public ApiResponse<String> addToCart(@RequestParam Long cartId, @RequestBody AddToCardRequest addToCardRequest) {
+        cartService.addToCart(cartId, addToCardRequest.getProductId(),
+                addToCardRequest.getQuantity());
+        return ApiResponse.<String>builder().data("Product added to cart").code(200).build();
+    }
     @PostMapping("/{id}/update")
     public ApiResponse<String> updateCart(@RequestParam Long cartId,
             @RequestBody UpdateCartQuanlityRequest addToCardRequest) {

@@ -3,7 +3,10 @@ package org.example.server_mobile.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -24,6 +27,13 @@ public class Carts {
     List<CartItem> cartItems;
     @OneToOne(mappedBy = "carts", cascade = CascadeType.ALL, orphanRemoval = true)
     Addresses addresses;
+    @CreatedDate
+    @UpdateTimestamp
+    Date createdAt;
+    @UpdateTimestamp
+    Date updatedAt;
+    @UpdateTimestamp
+    Date deletedAt;
 
     public CartPrice getCartPrice() {
         int totalPrice = 0;
