@@ -7,6 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +22,8 @@ import java.util.List;
 @Entity
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 @Table(name = "orders")
+@SQLDelete(sql = "UPDATE orders SET is_deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +54,12 @@ public class Order {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     Date createdAt;
+    @UpdateTimestamp
+    Date updatedAt;
+    @Column(name = "deleted_at")
+    Date deletedAt;
+    @Column(name = "is_deleted", nullable = false)
+    boolean isDeleted = false;
     @OneToMany(mappedBy = "order")
     List<CartItem> cartItems;
 

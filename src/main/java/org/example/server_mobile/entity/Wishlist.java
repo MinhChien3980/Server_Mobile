@@ -6,7 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -22,4 +25,11 @@ public class Wishlist {
     @OneToOne
     @JoinColumn(name = "user_id")
     User user;
+    @CreatedDate
+    @UpdateTimestamp
+    Date createdAt;
+    @UpdateTimestamp
+    Date updatedAt;
+    @UpdateTimestamp
+    Date deletedAt;
 }

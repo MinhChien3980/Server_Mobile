@@ -41,4 +41,21 @@ public class ProductController {
                 .data(productService.findById(id))
                 .build();
     }
+
+
+    @DeleteMapping("/{id}")
+    ApiResponse<String> deleteProduct(@PathVariable Long id) {
+        productService.delete(id);
+        return ApiResponse.<String>builder()
+                .data("Product deleted successfully")
+                .build();
+    }
+    @PutMapping("/{id}")
+    ApiResponse<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest product) {
+        return ApiResponse.<ProductResponse>builder()
+                .data(productService.updateProduct(id, product))
+                .build();
+    }
+
+
 }

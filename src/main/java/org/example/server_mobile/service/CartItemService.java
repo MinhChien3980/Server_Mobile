@@ -30,7 +30,7 @@ public class CartItemService implements IService<CartsItemRequest, CartItemRespo
     DiscountRepo discountRepo;
 
     @Override
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public CartItemResponse create(CartsItemRequest request) {
         CartItem cartItem = cartItemMapper.toCartItem(request);
 

@@ -81,6 +81,7 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
+
     public ProductResponse findById(Long id) {
         return productRepo.findById(id)
                 .map(productMapper::toProductResponse)
@@ -93,5 +94,44 @@ public class ProductService {
                     return productResponse;
                 })
                 .orElse(null);
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ProductResponse getById(Long id) {
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        return productMapper.toProductResponse(product);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public ProductResponse updateProduct(Long id, ProductRequest request) {
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setSize(request.getSize());
+        product.setStatus((byte) ("ACTIVE".equalsIgnoreCase(request.getStatus()) ? 1 : 0));
+        product.setStock(request.getStock());
+
+        // Handle ProductMedia
+        if (request.getProductMediaUrls() != null && !request.getProductMediaUrls().isEmpty()) {
+            if (product.getProductMedia() != null) {
+                product.getProductMedia().clear();
+            }
+
+            List<ProductMedia> mediaList = request.getProductMediaUrls().stream()
+                    .map(url -> ProductMedia.builder()
+                            .url(url)
+                            .product(product)
+                            .mediaType("IMAGE")
+                            .build())
+                    .collect(Collectors.toList());
+
+            product.getProductMedia().addAll(mediaList);
+        }
+
+        return productMapper.toProductResponse(productRepo.save(product));
+
     }
 }

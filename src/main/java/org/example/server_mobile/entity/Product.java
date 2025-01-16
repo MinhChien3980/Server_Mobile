@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.entity.enums.ShoeSize;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
@@ -20,6 +22,8 @@ import java.util.Set;
 @Builder
 @Entity
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
+@SQLDelete(sql = "UPDATE product SET is_deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +52,9 @@ public class Product {
     Date createdAt;
     @UpdateTimestamp
     Date updatedAt;
+    @Column(name = "deleted_at")
+    Date deletedAt;
+    @Column(name = "is_deleted", nullable = false)
+    boolean isDeleted = false;
 
 }

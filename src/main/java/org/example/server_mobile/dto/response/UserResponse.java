@@ -26,6 +26,8 @@ public class UserResponse {
     LocalDate dateOfBirth;
     String status;
     String phoneNumber;
-    Date created_at;
-    Date updated_at;
+    String addresses;
+    Date createdAt;
+    Date updatedAt;
+    Date deletedAt;
 }

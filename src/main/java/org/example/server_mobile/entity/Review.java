@@ -31,5 +31,10 @@ public class Review {
     @JoinColumn(name = "user_id")
     User user;
     @CreatedDate
+    @UpdateTimestamp
     Date createdAt;
+    @UpdateTimestamp
+    Date updatedAt;
+    @UpdateTimestamp
+    Date deletedAt;
 }

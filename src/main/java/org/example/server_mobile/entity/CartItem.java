@@ -7,6 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.entity.enums.TypeItem;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -14,6 +20,8 @@ import org.example.server_mobile.entity.enums.TypeItem;
 @Builder
 @Entity
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
+@SQLDelete(sql = "UPDATE cart_item SET is_deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class CartItem {
 
     @Id
@@ -38,4 +46,13 @@ public class CartItem {
     @Enumerated(EnumType.STRING)
     @Column(name = "type_item", nullable = false)
     TypeItem typeItem;
+    @CreatedDate
+    @UpdateTimestamp
+    Date createdAt;
+    @UpdateTimestamp
+    Date updatedAt;
+    @Column(name = "deleted_at")
+    Date deletedAt;
+    @Column(name = "is_deleted", nullable = false)
+    boolean isDeleted = false;
 }

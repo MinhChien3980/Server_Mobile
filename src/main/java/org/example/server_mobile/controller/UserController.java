@@ -26,10 +26,10 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest user) {
-        ApiResponse<UserResponse> response = new ApiResponse<>();
-        response.setData(userService.createUser(user));
-        return response;
+    ApiResponse<UserResponse> createUser(@Valid @RequestBody UserCreationRequest user) {
+        return ApiResponse.<UserResponse>builder()
+                .data(userService.createUser(user))
+                .build();
     }
 
     @GetMapping
