@@ -53,8 +53,27 @@ public class ProductService {
         return productMapper.toProductResponse(product);
     }
 
-    public List<Product> allProduct() {
-        return productRepo.findAll();
+    public List<ProductResponse> allProduct() {
+        return productRepo.findAll().stream()
+                .map(productMapper::toProductResponse)
+                .peek(productResponse -> productResponse.setProductMediaUrls(
+                        productMediaRepo.findByProduct_Id(productResponse.getId()).stream()
+                                .map(ProductMedia::getUrl)
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+    }
+
+
+    public void update(ProductRequest request) {
+        Product product = productRepo.findById(request.getId())
+                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + request.getId()));
+
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setStatus((byte) ("ACTIVE".equalsIgnoreCase(request.getStatus()) ? 1 : 0));
+
+        productRepo.save(product);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

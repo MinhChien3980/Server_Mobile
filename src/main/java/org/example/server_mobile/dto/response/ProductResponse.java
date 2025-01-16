@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.entity.enums.Gender;
 import org.example.server_mobile.entity.enums.ShoeSize;
+import org.example.server_mobile.service.ProductMediaService;
 
 import java.util.Date;
 import java.util.List;
@@ -27,8 +28,8 @@ public class ProductResponse {
     Double price;
     List<ShoeSize> size;
     List<String> productMediaUrls;
-    Set<String> discountNames;
-    Set<String> wishlistUsernames;
+//    Set<String> discountNames;
+//    Set<String> wishlistUsernames;
     String status;
     Double stock;
     Date createdAt;
