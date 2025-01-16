@@ -37,5 +37,7 @@ public class Category {
     Date createdAt;
     @UpdateTimestamp
     Date updatedAt;
+    @UpdateTimestamp
+    Date deletedAt;
 
 }

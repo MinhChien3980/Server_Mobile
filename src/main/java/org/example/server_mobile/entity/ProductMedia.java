@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -22,4 +26,11 @@ public class ProductMedia {
     Product product;
     String url;
     String mediaType;
+    @CreatedDate
+    @UpdateTimestamp
+    Date createdAt;
+    @UpdateTimestamp
+    Date updatedAt;
+    @UpdateTimestamp
+    Date deletedAt;
 }

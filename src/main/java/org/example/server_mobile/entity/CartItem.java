@@ -7,6 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.entity.enums.TypeItem;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -39,4 +43,11 @@ public class CartItem {
     @Enumerated(EnumType.STRING)
     @Column(name = "type_item", nullable = false)
     TypeItem typeItem;
+    @CreatedDate
+    @UpdateTimestamp
+    Date createdAt;
+    @UpdateTimestamp
+    Date updatedAt;
+    @UpdateTimestamp
+    Date deletedAt;
 }

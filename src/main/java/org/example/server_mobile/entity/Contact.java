@@ -31,4 +31,8 @@ public class Contact {
     @CreatedDate
     @UpdateTimestamp
     Date createdAt;// thoi gian tao feedback
+    @UpdateTimestamp
+    Date updatedAt;
+    @UpdateTimestamp
+    Date deletedAt;
 }

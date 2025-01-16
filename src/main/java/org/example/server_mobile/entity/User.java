@@ -47,4 +47,6 @@ public class User {
     Date createdAt;
     @UpdateTimestamp
     Date updatedAt;
+    @UpdateTimestamp
+    Date deletedAt;
 }
