@@ -1,13 +1,18 @@
 package org.example.server_mobile.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
@@ -17,6 +22,8 @@ import java.util.*;
 @Entity
 @ToString(exclude = "carts")
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
+@SQLDelete(sql = "UPDATE user SET is_deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +44,9 @@ public class User {
     Set<Review> review;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<ActivityLog> activityLog;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    Addresses addresses;
+    String addresses;
+    @Column(length = 10)
+    @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
     String phoneNumber;
     @JsonFormat(pattern = "dd-MM-yyyy")
     LocalDate dateOfBirth;
@@ -47,6 +55,8 @@ public class User {
     Date createdAt;
     @UpdateTimestamp
     Date updatedAt;
-    @UpdateTimestamp
+    @Column(name = "deleted_at")
     Date deletedAt;
+    @Column(name = "is_deleted", nullable = false)
+    boolean isDeleted = false;
 }
