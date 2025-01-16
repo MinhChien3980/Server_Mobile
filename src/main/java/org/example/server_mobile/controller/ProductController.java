@@ -35,11 +35,13 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    ApiResponse<ProductResponse> getProductById(@PathVariable Long id) {
+    ApiResponse<ProductResponse> getProduct(@PathVariable Long id) {
         return ApiResponse.<ProductResponse>builder()
-                .data(productService.getById(id))
+                .code(200)
+                .data(productService.findById(id))
                 .build();
     }
+
 
     @DeleteMapping("/{id}")
     ApiResponse<String> deleteProduct(@PathVariable Long id) {
@@ -54,5 +56,6 @@ public class ProductController {
                 .data(productService.updateProduct(id, product))
                 .build();
     }
+
 
 }

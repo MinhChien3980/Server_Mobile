@@ -81,6 +81,20 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
+
+    public ProductResponse findById(Long id) {
+        return productRepo.findById(id)
+                .map(productMapper::toProductResponse)
+                .map(productResponse -> {
+                    productResponse.setProductMediaUrls(
+                            productMediaRepo.findByProduct_Id(productResponse.getId()).stream()
+                                    .map(ProductMedia::getUrl)
+                                    .collect(Collectors.toList())
+                    );
+                    return productResponse;
+                })
+                .orElse(null);
+
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ProductResponse getById(Long id) {
         Product product = productRepo.findById(id)
@@ -118,5 +132,6 @@ public class ProductService {
         }
 
         return productMapper.toProductResponse(productRepo.save(product));
+
     }
 }

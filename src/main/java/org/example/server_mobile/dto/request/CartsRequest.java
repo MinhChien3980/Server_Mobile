@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @Data
@@ -16,5 +17,7 @@ public class CartsRequest {
     Long id;
     Long carts_id;
     Long user_id;
+    String code;
+    Double grandTotal;
 
 }
