@@ -98,13 +98,6 @@ public class UserService {
         existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
         log.info("Updated user: {}", existingUser.getPassword());
 
-        var roleNames = user.getRole().stream()
-                .map(Role::getName)
-                .collect(Collectors.toSet());
-        log.info("roleNames: {}", roleNames);
-        var roles = roleRepo.findAllByNameIn((Set<String>) roleNames);
-        log.info("roles: {}", roles);
-        existingUser.setRole(new HashSet<>(roles));
         log.info("Updated user: {}", existingUser.getRole());
         return userMapper.toUserResponse(userRepo.save(existingUser));
     }

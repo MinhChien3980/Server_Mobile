@@ -26,7 +26,6 @@ public class UserCreationRequest {
     String email;
     @Size(min = 8, max = 20, message = "INVALID_PASSWORD")
     String password;
-    Set<Role> role;
     @JsonFormat(pattern = "dd-MM-yyyy")
     LocalDate dateOfBirth;
     String status;
