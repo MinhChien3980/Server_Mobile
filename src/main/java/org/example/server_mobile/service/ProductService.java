@@ -94,6 +94,7 @@ public class ProductService {
                     return productResponse;
                 })
                 .orElse(null);
+    }
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ProductResponse getById(Long id) {
@@ -134,4 +135,5 @@ public class ProductService {
         return productMapper.toProductResponse(productRepo.save(product));
 
     }
+
 }

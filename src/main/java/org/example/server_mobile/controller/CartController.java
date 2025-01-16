@@ -38,12 +38,12 @@ public class CartController {
                 .data(cartService.getCart(id))
                 .build();
     }
-    @GetMapping("/user/{id}")
-    ApiResponse<CartsResponse> getCartByUserId(@PathVariable Long id) {
-        return ApiResponse.<CartsResponse>builder()
-                .data(cartService.findByUserId(id))
-                .build();
-    }
+//    @GetMapping("/user/{id}")
+//    ApiResponse<CartsResponse> getCartByUserId(@PathVariable Long id) {
+//        return ApiResponse.<CartsResponse>builder()
+//                .data(cartService.findByUserId(id))
+//                .build();
+//    }
 
     @PostMapping("/additem")
     public ApiResponse<String> addToCart(@RequestBody CartsItemRequest cartsItemRequest) {
