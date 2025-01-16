@@ -1,11 +1,13 @@
 package org.example.server_mobile.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.server_mobile.entity.Addresses;
 import org.example.server_mobile.entity.Role;
 
 import java.time.LocalDate;
@@ -25,12 +27,11 @@ public class UserCreationRequest {
     @Size(min = 8, max = 20, message = "INVALID_PASSWORD")
     String password;
     Set<Role> role;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     LocalDate dateOfBirth;
     String status;
     String phoneNumber;
-    Date created_at;
-    Date updated_at;
-
+    String addresses;
 }
 
 

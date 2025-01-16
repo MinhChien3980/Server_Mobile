@@ -60,6 +60,8 @@ public class UserService {
         newUser.setRole(roles);
         newUser.setFullName(userRequest.getFullName());
         newUser.setPhoneNumber(userRequest.getPhoneNumber());
+        newUser.setDateOfBirth(userRequest.getDateOfBirth());
+        newUser.setAddresses(userRequest.getAddresses());
         try {
             newUser = userRepo.save(newUser);
         } catch (DataIntegrityViolationException exception) {
