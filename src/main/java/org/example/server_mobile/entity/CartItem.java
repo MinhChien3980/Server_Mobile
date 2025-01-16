@@ -34,7 +34,6 @@ public class CartItem {
 
     int quantity;
     double grandTotal;
-    int discount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type_item", nullable = false)

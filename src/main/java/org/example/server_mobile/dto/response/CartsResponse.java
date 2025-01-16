@@ -20,7 +20,8 @@ import static lombok.AccessLevel.PRIVATE;
 public class CartsResponse {
     Long id;
     List<CartItemResponse> cartItems;
-    Address address;
-    CartPrice cartPrice;
+    String address;
+    Double discount;
+    Double grandTotal;
     String errorMessage;
 }

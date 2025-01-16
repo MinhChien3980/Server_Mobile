@@ -33,4 +33,12 @@ public class ProductController {
                 .data(productService.allProduct())
                 .build();
     }
+
+    @GetMapping("/{id}")
+    ApiResponse<ProductResponse> getProduct(@PathVariable Long id) {
+        return ApiResponse.<ProductResponse>builder()
+                .code(200)
+                .data(productService.findById(id))
+                .build();
+    }
 }

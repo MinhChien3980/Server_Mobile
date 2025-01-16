@@ -1,22 +1,29 @@
 package org.example.server_mobile.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.server_mobile.dto.request.*;
+import org.example.server_mobile.dto.response.CartItemResponse;
 import org.example.server_mobile.dto.response.CartsResponse;
 import org.example.server_mobile.entity.enums.TypeItem;
+import org.example.server_mobile.repository.CartsItemRepo;
+import org.example.server_mobile.repository.CartsRepo;
 import org.example.server_mobile.service.CartItemService;
 import org.example.server_mobile.service.CartService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
 public class CartController {
-
+    CartsItemRepo cartsItemRepo;
     CartService cartService;
     CartItemService cartItemService;
+    CartsRepo cartsRepo;
 
     @PostMapping("/create")
     ApiResponse<CartsResponse> createCart(@RequestParam Long userId) {
@@ -45,6 +52,29 @@ public class CartController {
         cartService.updateCart(cartId, addToCardRequest.getProductId(),
                 addToCardRequest.getQuantity());
         return ApiResponse.<String>builder().data("Product updated in cart").code(200).build();
+    }
+
+    @GetMapping("/user")
+    public ApiResponse<CartsResponse> getCartByUserId(@RequestParam("userId") Long userId) {
+        CartsResponse item = cartService.findByUserId(userId);
+
+        List<CartItemResponse> cartItemResponseList = item.getCartItems();
+        cartItemResponseList.forEach(cartItemResponse -> {
+            System.out.println("Price " + cartItemResponse.getProduct().getPrice());
+            System.out.println("Quantity " + cartItemResponse.getQuantity());
+        });
+        double grandTotal = cartItemResponseList.stream().mapToDouble(itemCart ->
+            itemCart.getProduct().getPrice() * itemCart.getQuantity()
+
+
+
+        ).sum();
+        System.out.println("grandTotal: " + grandTotal);
+        item.setGrandTotal(grandTotal);
+        return ApiResponse.<CartsResponse>builder()
+                .code(200)
+                .data(item)
+                .build();
     }
 
     @PostMapping("/{id}/delete")

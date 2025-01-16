@@ -81,4 +81,17 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
+    public ProductResponse findById(Long id) {
+        return productRepo.findById(id)
+                .map(productMapper::toProductResponse)
+                .map(productResponse -> {
+                    productResponse.setProductMediaUrls(
+                            productMediaRepo.findByProduct_Id(productResponse.getId()).stream()
+                                    .map(ProductMedia::getUrl)
+                                    .collect(Collectors.toList())
+                    );
+                    return productResponse;
+                })
+                .orElse(null);
+    }
 }
