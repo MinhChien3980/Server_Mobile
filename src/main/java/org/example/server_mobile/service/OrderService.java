@@ -6,15 +6,10 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.example.server_mobile.dto.request.OrderRequest;
 import org.example.server_mobile.dto.response.OrderResponse;
-import org.example.server_mobile.entity.Carts;
-import org.example.server_mobile.entity.Discount;
-import org.example.server_mobile.entity.Order;
+import org.example.server_mobile.entity.*;
 import org.example.server_mobile.exception.ApiException;
 import org.example.server_mobile.mapper.OrderMapper;
-import org.example.server_mobile.repository.CartsItemRepo;
-import org.example.server_mobile.repository.CartsRepo;
-import org.example.server_mobile.repository.DiscountRepo;
-import org.example.server_mobile.repository.OrderRepo;
+import org.example.server_mobile.repository.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +27,13 @@ public class OrderService implements IService<OrderRequest, OrderResponse> {
     CartsRepo cartsRepo;
     CartItemService cartItemService;
     DiscountRepo discountRepo;
+    ProductRepo productRepo;
 
 
     @Override
     @PreAuthorize("hasRole('USER')")
     public OrderResponse create(OrderRequest orderRequest) {
         System.out.println("Received OrderRequest: " + orderRequest);
-        // Log request đầu vào
 
         // Chuyển đổi từ DTO sang entity và khởi tạo giá trị mặc định
         Order order = orderMapper.toOrder(orderRequest);
@@ -55,16 +50,38 @@ public class OrderService implements IService<OrderRequest, OrderResponse> {
                 .orElseThrow(() -> new ApiException(400, "Cart not found with ID: " + orderRequest.getCartId()));
 
         // Tính tổng giá trị các mặt hàng trong giỏ
-        double totalPrice = cartsItemRepo.findByCarts(carts).stream()
-                .mapToDouble(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()) // Giả định: `getPrice` trả giá tiền mỗi sản phẩm
-                .sum();
+        double totalPrice = 0.0;
+        double totalDiscount = 0.0;
 
+        // Xử lý từng CartItem
+        List<CartItem> cartItems = cartsItemRepo.findByCarts(carts);
 
-        // Tính giảm giá
-        Discount discount = discountRepo.findByCode(orderRequest.getCode());
+        for (CartItem cartItem : cartItems) {
+            Product product = cartItem.getProduct();
 
+            // Kiểm tra tồn kho
+            if (product.getStock() < cartItem.getQuantity()) {
+                throw new ApiException(400, "Not enough stock for product: " + product.getName());
+            }
 
-        double totalDiscount = (discount != null) ? discount.getDiscountPercentage() * totalPrice : 0.0;
+            // Trừ số lượng tồn kho
+            product.setStock(product.getStock() - cartItem.getQuantity());
+
+            // Tính tổng giá và giảm giá
+            totalPrice += cartItem.getQuantity() * product.getPrice();
+
+            // Nếu có mã giảm giá, áp dụng
+            if (orderRequest.getCode() != null) {
+                Discount discount = discountRepo.findByCode(orderRequest.getCode());
+                if (discount != null) {
+                    totalDiscount += cartItem.getQuantity() * product.getPrice() * discount.getDiscountPercentage();
+                }
+            }
+
+            // Cập nhật CartItem để gắn vào đơn hàng
+            cartItem.setOrder(order);
+            cartItem.setCarts(null); // Bỏ liên kết với giỏ hàng
+        }
 
         // Tính tổng cộng
         double grandTotal = totalPrice - totalDiscount + orderRequest.getShippingFee();
@@ -75,21 +92,15 @@ public class OrderService implements IService<OrderRequest, OrderResponse> {
         order.setTotalDiscount(totalDiscount);
         order.setGrandTotal(grandTotal);
 
+        // Lưu các thay đổi
+        cartsItemRepo.saveAll(cartItems); // Lưu các CartItem đã cập nhật
+        orderRepo.save(order);            // Lưu đơn hàng
+        productRepo.saveAll(cartItems.stream().map(CartItem::getProduct).toList()); // Lưu sản phẩm đã cập nhật
 
-        // Lưu đơn hàng đã cập nhật
-        orderRepo.save(order);
-
-        // Chuyển đổi giỏ hàng thành đơn hàng
-        cartItemService.changeCartToOrder(orderRequest.getCartId(), order.getId());
-
-        OrderResponse orderResponse = orderMapper.toOrderResponse(order);
-        orderResponse.setUserId(carts.getUser().getId());
-        orderResponse.setUserName(carts.getUser().getFullName());
-        orderResponse.setCreatedAt(order.getCreatedAt());
+        // Map sang DTO phản hồi
 
 
-        // Trả về phản hồi
-        return orderResponse;
+        return orderMapper.toOrderResponse(order);
     }
 
 
